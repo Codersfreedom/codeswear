@@ -44,6 +44,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// pre hook to hash password
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   try {
@@ -54,7 +55,7 @@ userSchema.pre("save", async function (next) {
     next(error);
   }
 });
-
+// method to check password
 userSchema.methods.comparePassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };

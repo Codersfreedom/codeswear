@@ -127,3 +127,11 @@ export async function refreshToken(req, res) {
     res.status(500).json("Internal server error");
   }
 }
+
+export async function getProfile(req, res) {
+  try {
+    return res.status(200).json({ user: req.user });
+  } catch (error) {
+    console.log("Error in getProfile controller", error.message);
+  }
+}
