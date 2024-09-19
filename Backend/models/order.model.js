@@ -33,12 +33,12 @@ const orderSchema = mongoose.Schema(
     },
     stripeSessionId: {
       type: String,
-      required: true,
+      unique: true,
     },
   },
-  { timestamps: ture }
+  { timestamps: true }
 );
 
-const Order = mongoose.Schema("Order", orderSchema);
+const Order = mongoose.model("Order", orderSchema);
 
 export default Order;

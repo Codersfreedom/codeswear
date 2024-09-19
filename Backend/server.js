@@ -4,9 +4,11 @@ import cookieParser from "cookie-parser";
 
 import connectDB from "./db/db.js";
 
-import  authRoutes  from "./routes/auth.routes.js";
-import  productRoutes  from "./routes/product.routes.js";
-import  cartRoutes  from "./routes/cart.routes.js";
+import authRoutes from "./routes/auth.routes.js";
+import productRoutes from "./routes/product.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
+import couponRoutes from "./routes/coupon.routes.js";
+import paymentRoutes from "./routes/payment.routes.js";
 
 dotenv.config();
 
@@ -17,7 +19,9 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/cart",productRoutes,cartRoutes)
+app.use("/api/cart", productRoutes, cartRoutes);
+app.use("/api/coupon", productRoutes, couponRoutes);
+app.use("/api/payment", productRoutes, paymentRoutes);
 
 const PORT = process.env.PORT;
 
