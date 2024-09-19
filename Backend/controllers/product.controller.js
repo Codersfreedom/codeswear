@@ -99,9 +99,84 @@ export async function deleteProduct(req, res) {
       }
     }
     await Product.findByIdAndDelete({ id });
-    res.status(204).json({ message: "Deleted successfully" });
+    res.status(202).json({ message: "Deleted successfully" });
   } catch (error) {
     console.log("Error in delete product controller", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function getRecommandations(req, res) {
+  try {
+    const products = await Product.aggregate([
+      { $sample: { size: 5 } },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          description: 1,
+          price: 1,
+          image: 1,
+        },
+      },
+    ]);
+    res.json(products);
+  } catch (error) {
+    console.log("Error in get recomadation controller", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function getCategoryProducts(req, res) {
+  const { category } = req.params;
+
+  try {
+    const products = await Product.find({ category });
+
+    if (products) {
+      res.status(200).json({ products });
+    }
+  } catch (error) {
+    console.log("Error in get category products controller", error.message);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function toggleFeatured(req, res) {
+  try {
+    const { id } = req.params;
+
+    const product = await Product.findById(id);
+
+    if (!product) return res.status(404).json({ message: "Product not found" });
+
+    if (product) {
+      product.isFeatured = !product.isFeatured;
+      const updatedFeaturedProducts = await product.save();
+      await updateRedisFeaturedProduct();
+      res.status(200).json(updatedFeaturedProducts);
+    }
+  } catch (error) {
+    console.log(
+      "Internal server error in toggle featured product controller",
+      error.message
+    );
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export async function updateRedisFeaturedProduct(req, res) {
+  try {
+    const featuredProducts = await Product.find({ isFeatured: true }).lean();
+    if (!featuredProducts)
+      return res.status(404).json({ message: "No featured products found!" });
+
+    await redis.set("featured-products", JSON.stringify(featuredProducts));
+  } catch (error) {
+    console.log(
+      "Error in updateRedis featured products controller",
+      error.message
+    );
     res.status(500).json({ message: "Internal server error" });
   }
 }
