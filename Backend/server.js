@@ -19,9 +19,9 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/cart", productRoutes, cartRoutes);
-app.use("/api/coupon", productRoutes, couponRoutes);
-app.use("/api/payment", productRoutes, paymentRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/coupon", couponRoutes);
+app.use("/api/payment", paymentRoutes);
 
 const PORT = process.env.PORT;
 
