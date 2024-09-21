@@ -132,7 +132,7 @@ export async function getCategoryProducts(req, res) {
 
 export async function toggleFeatured(req, res) {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
 
     const product = await Product.findById(id);
 

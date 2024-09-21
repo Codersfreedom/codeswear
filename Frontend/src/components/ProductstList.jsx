@@ -4,9 +4,9 @@ import useProductStore from "../store/useProductStore";
 
 
 const ProductsList = () => {
-	const { deleteProduct, toggleFeaturedProduct } = {};
+	const { deleteProduct,  } = {};
 
-	const {products} = useProductStore();
+	const {products,toggleFeaturedProduct} = useProductStore();
 
 	console.log("products", products);
 

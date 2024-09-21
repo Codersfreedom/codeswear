@@ -13,7 +13,7 @@ const useProductStore = create((set) => ({
     set({ loading: true });
     try {
       const res = await axios.post("/api/products/addProduct", productData);
-      console.log(res)
+      console.log(res);
       set((prevData) => ({
         products: [...prevData.products, res.data],
         loading: false,
@@ -33,6 +33,24 @@ const useProductStore = create((set) => ({
     } catch (error) {
       set({ loading: false });
       toast.error(error.response.data.message);
+    }
+  },
+
+  toggleFeaturedProduct: async (id) => {
+    try {
+      const res = await axios.post("/api/products/toggleFeatured", { id });
+      console.log(res)
+      set((prevProducts) => ({
+        products: prevProducts.products.map((product) =>
+          product._id === id
+            ? { ...product, isFeatured: res.data.isFeatured }
+            : product
+        ),
+        loading: false,
+      }));
+    } catch (error) {
+        set({ loading: false });
+        toast.error(error.response.data.message);
     }
   },
 }));

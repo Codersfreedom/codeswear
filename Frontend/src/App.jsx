@@ -35,7 +35,7 @@ function App() {
           <Route path="/" element={authUser ? <Home /> : <Navigate to={"/login"} />} />
           <Route path="/login" element={!authUser ? <Login /> : <Navigate to={"/"} />} />
           <Route path="/signup" element={!authUser ? <Signup /> : <Navigate to={"/"} />} />
-          <Route path="/secret-dashboard" element={authUser?.role ==="admin" ? <AdminPage /> : <Navigate to={"/login"} />} />
+          <Route path="/secret-dashboard" element={authUser && authUser?.role ==="admin" ? <AdminPage /> : <Navigate to={"/login"} />} />
           
 
         </Routes>
