@@ -71,9 +71,8 @@ export async function addProduct(req, res) {
 }
 
 export async function deleteProduct(req, res) {
-  const { id } = req.params;
   try {
-    const product = await Product.findById({ id });
+    const product = await Product.findById(req.params.id);
 
     if (!product) return res.status(404).json({ message: "Product not found" });
 
@@ -86,7 +85,7 @@ export async function deleteProduct(req, res) {
         console.log("Image can't deleted from cloudinary", error.message);
       }
     }
-    await Product.findByIdAndDelete({ id });
+    await Product.findByIdAndDelete(req.params.id);
     res.status(202).json({ message: "Deleted successfully" });
   } catch (error) {
     console.log("Error in delete product controller", error.message);
