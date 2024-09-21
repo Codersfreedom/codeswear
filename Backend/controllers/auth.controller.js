@@ -133,5 +133,6 @@ export async function getProfile(req, res) {
     return res.status(200).json({ user: req.user });
   } catch (error) {
     console.log("Error in getProfile controller", error.message);
+    res.status(500).json({ message: "Internal server error" });
   }
 }
