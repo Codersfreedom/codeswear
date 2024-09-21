@@ -33,6 +33,7 @@ export async function signup(req, res) {
         id: response._id,
         name: response.name,
         email: response.email,
+        role:response.role,
       },
       message: "User created succesfully",
     });
@@ -59,6 +60,7 @@ export async function login(req, res) {
         user: {
           name: user.name,
           email: user.email,
+          role:user.role,
         },
         message: "Login successful",
       });

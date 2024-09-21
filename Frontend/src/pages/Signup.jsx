@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { UserPlus, Mail, Lock, User, ArrowRight, Loader } from "lucide-react";
 import { motion } from "framer-motion";
+import useAuthStore from "../store/useAuthStore";
 
 
 const Signup = () => {
@@ -9,15 +10,15 @@ const Signup = () => {
 		name: "",
 		email: "",
 		password: "",
-		confirmPassword: "",
+		cpassword: "",
 	});
 
-	// const { signup, loading } = useUserStore();
-  const loading =false;
+	const { signup, loading } = useAuthStore();
+
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// signup(formData);
+		signup(formData);
 	};
 
 	return (
@@ -116,8 +117,8 @@ const Signup = () => {
 									id='confirmPassword'
 									type='password'
 									required
-									value={formData.confirmPassword}
-									onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+									value={formData.cpassword}
+									onChange={(e) => setFormData({ ...formData, cpassword: e.target.value })}
 									className=' block w-full px-3 py-2 pl-10 bg-gray-700 border
 									 border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm'
 									placeholder='••••••••'

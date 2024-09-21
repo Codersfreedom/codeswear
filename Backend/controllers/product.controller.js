@@ -6,9 +6,7 @@ export async function getAllProducts(req, res) {
   try {
     const products = await Product.find({});
 
-    if (products) {
-      res.status(200).json({ products });
-    }
+    res.status(200).json({products});
   } catch (error) {
     console.log("Internal server error in product controller", error.message);
     res.status(500).json({ message: "Internal server error" });
@@ -39,17 +37,8 @@ export async function getFeaturedProducts(req, res) {
 
 export async function addProduct(req, res) {
   try {
-    const {
-      name,
-      description,
-      price,
-      image,
-      category,
-      stock,
-      color,
-      size,
-      isFeatured,
-    } = req.body;
+    const { name, description, price, image, category, stock, color, size } =
+      req.body;
     let cloudinaryResponse = null;
 
     if (image) {
@@ -58,21 +47,20 @@ export async function addProduct(req, res) {
       });
     }
 
-    const newProduct = await Product.create({
+    const product = await Product.create({
       name,
       description,
       price,
-      image: cloudinaryResponse.secure_url ? cloudinaryResponse.secure_url : "",
+      image: cloudinaryResponse?.secure_url
+        ? cloudinaryResponse.secure_url
+        : "",
       category,
       stock,
       color,
       size,
-      isFeatured,
     });
 
-    if (newProduct) {
-      res.status(201).json({ newProduct });
-    }
+    res.status(201).json(product);
   } catch (error) {
     console.log(
       "Internal server error in Add Product controller",

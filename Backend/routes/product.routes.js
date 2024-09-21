@@ -7,9 +7,9 @@ const router = express.Router();
 
 router.get("/", protectRoute, adminRoute, getAllProducts);
 router.get("/featured",getFeaturedProducts)
-router.get("/addProduct",protectRoute,adminRoute,addProduct)
-router.get("/:id",protectRoute,adminRoute,deleteProduct)
-router.get("/toggleFeatured",protectRoute,adminRoute,toggleFeatured)
+router.post("/addProduct",protectRoute,adminRoute,addProduct)
+router.delete("/:id",protectRoute,adminRoute,deleteProduct)
+router.post("/toggleFeatured",protectRoute,adminRoute,toggleFeatured)
 router.get("/recommandations",getRecommandations)
 router.get("/:category",getCategoryProducts)
 
