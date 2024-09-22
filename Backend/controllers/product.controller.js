@@ -152,7 +152,7 @@ export async function toggleFeatured(req, res) {
   }
 }
 
-export async function updateRedisFeaturedProduct(req, res) {
+async function updateRedisFeaturedProduct(req, res) {
   try {
     const featuredProducts = await Product.find({ isFeatured: true }).lean();
     if (!featuredProducts)

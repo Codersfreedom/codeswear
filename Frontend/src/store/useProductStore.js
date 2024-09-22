@@ -65,7 +65,30 @@ const useProductStore = create((set) => ({
         set({ loading: false });
         toast.error(error.response.data.message);
     }
-  }
+  },
+  fetchProductsByCategory: async (category)=>{
+    set({loading:true})
+    try {
+      const res = await axios.get(`/api/products/${category}`);
+
+      set({products:res.data.products,loading:false});
+
+    } catch (error) {
+      set({loading:false});
+
+    }
+  },
+  fetchFeaturedProducts:async ()=>{
+    set({loading:true})
+    try {
+      const res = await axios.get("/api/products/featured");
+      set({products:res.data.featuredProducts,loading:false})
+    } catch (error) {
+      set({loading:false});
+      console.log(error.response.data.message)
+    }
+  },
+
 }));
 
 export default useProductStore;

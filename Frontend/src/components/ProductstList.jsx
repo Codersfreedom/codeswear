@@ -8,7 +8,6 @@ const ProductsList = () => {
 
 	const {products,toggleFeaturedProduct,deleteProduct} = useProductStore();
 
-	console.log("products", products);
 
 	return (
 		<motion.div

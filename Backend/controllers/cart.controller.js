@@ -21,9 +21,9 @@ export async function getAllCartItems(req, res) {
 
 export async function addToCart(req, res) {
   try {
-    const { productId } = req.params;
+    const { productId } = req.body;
     const user = req.user;
-
+console.log(productId)
     const existingProduct = await user.cartItems.find(
       (items) => items.id === productId
     );
@@ -34,7 +34,7 @@ export async function addToCart(req, res) {
       user.cartItems.push(productId);
     }
 
-    await user.Save();
+    await user.save();
     res.status(201).json(user.cartItems);
   } catch (error) {
     console.log("Error in Cart controller", error.message);

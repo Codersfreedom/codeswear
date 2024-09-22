@@ -8,15 +8,24 @@ import useAuthStore from "./store/useAuthStore"
 import { useEffect } from "react"
 import LoadingSpinner from "./components/LoadingSpinner"
 import AdminPage from "./pages/AdminPage"
+import CategoryPage from "./pages/CategoryPage"
+import CartPage from "./pages/CartPage"
+import useCartStore from "./store/useCartStore"
 
 
 
 function App() {
   const { authUser, checkAuth, authChecking } = useAuthStore();
+  const { getCartItems } = useCartStore()
 
   useEffect(() => {
     checkAuth()
   }, [checkAuth])
+
+  useEffect(() => {
+    if (!authUser) return;
+    getCartItems()
+  }, [getCartItems,authUser])
 
   if (authChecking) return <LoadingSpinner />
   return (
@@ -35,8 +44,11 @@ function App() {
           <Route path="/" element={authUser ? <Home /> : <Navigate to={"/login"} />} />
           <Route path="/login" element={!authUser ? <Login /> : <Navigate to={"/"} />} />
           <Route path="/signup" element={!authUser ? <Signup /> : <Navigate to={"/"} />} />
-          <Route path="/secret-dashboard" element={authUser && authUser?.role ==="admin" ? <AdminPage /> : <Navigate to={"/login"} />} />
-          
+          <Route path="/cart" element={authUser ? <CartPage /> : <Navigate to={"/login"} />} />
+          <Route path="/category/:category" element={<CategoryPage />} />
+
+          <Route path="/secret-dashboard" element={authUser && authUser?.role === "admin" ? <AdminPage /> : <Navigate to={"/login"} />} />
+
 
         </Routes>
       </div>
