@@ -23,7 +23,7 @@ export async function addToCart(req, res) {
   try {
     const { productId } = req.body;
     const user = req.user;
-console.log(productId)
+    console.log(productId);
     const existingProduct = await user.cartItems.find(
       (items) => items.id === productId
     );
@@ -44,18 +44,13 @@ console.log(productId)
 
 export async function removeFromCart(req, res) {
   try {
-    const { productId } = req.params;
-
+    const { productId } = req.body;
     const user = req.user;
 
     if (!productId)
       return res
         .status(406)
         .json({ message: "Please provide a valid product id" });
-
-    const existingProduct = await user.cartItems.find(productId);
-    if (!existingProduct)
-      return res.status(404).json({ message: "Item not found" });
 
     user.cartItems = user.cartItems.filter((items) => items.id != productId);
 

@@ -9,20 +9,20 @@ const useCartStore = create((set, get) => ({
   subTotal: 0,
   isCouponApplied: false,
 
-  getCartItems:async ()=>{
+  getCartItems: async () => {
     try {
-        const res = await axios.get("/api/cart");
-        console.log(res)
-        set({cart:res.data})
-        get().getCalculateTotals();
+      const res = await axios.get("/api/cart");
+      console.log(res);
+      set({ cart: res.data });
+      get().getCalculateTotals();
     } catch (error) {
-        console.log("Error while fetching cart items")
+      console.log("Error while fetching cart items");
     }
   },
 
   addToCart: async (product) => {
-    console.log("addto cart called")
-    
+    console.log("addto cart called");
+
     try {
       await axios.post("/api/cart/add", { productId: product._id });
       toast.success("Added to cart");
@@ -63,6 +63,21 @@ const useCartStore = create((set, get) => ({
     }
     set({ subTotal, total });
   },
+  removeFromCart: async (productId) => {
+    console.log(productId)
+    try {
+      await axios.delete('/api/cart/remove',{data:{productId}});
+      set((prevState) => ({
+        cart: prevState.cart.filter((item) => item._id !== productId),
+      }));
+      toast.success("Item removed from cart");
+    } catch (error) {
+      toast.error(error.response.data.message || "Error deleting the product");
+    }
+  },
+  updateQuantity: async ()=>{
+
+  }
 }));
 
-export default useCartStore
+export default useCartStore;
