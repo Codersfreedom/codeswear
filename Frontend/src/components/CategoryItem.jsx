@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const CategoryItem = ({ category }) => {
-	console.log(category)
 	return (
 		<div className='relative overflow-hidden h-96 w-full rounded-lg group'>
 			<Link to={"/category" + category?.href}>

@@ -12,12 +12,41 @@ const useCartStore = create((set, get) => ({
   getCartItems: async () => {
     try {
       const res = await axios.get("/api/cart");
-      console.log(res);
       set({ cart: res.data });
       get().getCalculateTotals();
     } catch (error) {
       console.log("Error while fetching cart items");
     }
+  },
+
+  getMyCoupon: async () => {
+    try {
+      const res = await axios.get("/api/coupon");
+      set({ coupon: res.data });
+    } catch (error) {
+      console.log("Error in getMyCoupon store", error.message);
+    }
+  },
+
+  applyCoupon: async (code) => {
+    try {
+      const res = await axios.post("/api/coupon/validate", { code });
+      console.log("Validate coupon:", res);
+      set({ coupon: res.data, isCouponApplied: true });
+      get().getCalculateTotals();
+      toast.success("Coupon applied");
+    } catch (error) {
+      console.log("Error in applyCoupon ", error.message);
+      set({ isCouponApplied: false });
+      toast.error(
+        error.response?.data?.message || "Failed to apply coupon code"
+      );
+    }
+  },
+  removeCoupon: async () => {
+    set({ coupon: null, isCouponApplied: false });
+    get().getCalculateTotals();
+    toast.success("Coupon removed");
   },
 
   addToCart: async (product) => {

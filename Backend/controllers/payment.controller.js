@@ -5,7 +5,7 @@ import Order from "../models/order.model.js";
 export async function createSession(req, res) {
   try {
     const { products, coupon } = req.body;
-
+    console.log(products,coupon)
     if (!Array.isArray(products) || products.length == 0) {
       return res.status(400).json({ message: "No product provided" });
     }
@@ -20,11 +20,11 @@ export async function createSession(req, res) {
           currency: "usd",
           product_data: {
             name: product.name,
-            image: product.image,
+            images: [product.image],
           },
-          unit_price: amount,
+          unit_amount: amount,
         },
-        quantity: product.quantity,
+        quantity: product.quantity || 1,
       };
     });
 
@@ -73,7 +73,7 @@ export async function createSession(req, res) {
     if (totalAmount >= 2000) {
       await createNewCoupon(req.user._id);
     }
-    res.status(200).json({ session_id: session.id, amount: totalAmount / 100 });
+    res.status(200).json({ id: session.id, amount: totalAmount / 100 });
   } catch (error) {
     console.log("Error in createSession payment controller", error.message);
     res.status(500).json("Internal server error");

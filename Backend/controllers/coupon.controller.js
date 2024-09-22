@@ -23,7 +23,7 @@ export async function validateCoupon(req, res) {
       isActive: true,
     });
 
-    if (!coupon) return res.status(404).json("coupon not found!");
+    if (!coupon) return res.status(404).json({message:"coupon not found!"});
 
     if (coupon.expirationDate < new Date()) {
       coupon.isActive = false;

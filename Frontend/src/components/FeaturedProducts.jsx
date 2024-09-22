@@ -4,6 +4,7 @@ import useCartStore from "../store/useCartStore";
 
 
 const FeaturedProducts = ({ featuredProducts }) => {
+	console.log("featured Products",featuredProducts)
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [itemsPerPage, setItemsPerPage] = useState(4);
 

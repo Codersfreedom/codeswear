@@ -82,7 +82,7 @@ const useProductStore = create((set) => ({
     set({loading:true})
     try {
       const res = await axios.get("/api/products/featured");
-      set({products:res.data.featuredProducts,loading:false})
+      set({products:res.data,loading:false})
     } catch (error) {
       set({loading:false});
       console.log(error.response.data.message)

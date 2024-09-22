@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MoveRight } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
-import axios from "../lib/axios";
+import axios from "axios";
 import useCartStore from "../store/useCartStore";
 
 const stripePromise = loadStripe(
@@ -20,9 +20,9 @@ const OrderSummary = () => {
 
 	const handlePayment = async () => {
 		const stripe = await stripePromise;
-		const res = await axios.post("/payments/create-checkout-session", {
+		const res = await axios.post("/api/payment/createSession", {
 			products: cart,
-			couponCode: coupon ? coupon.code : null,
+			coupon: coupon ? coupon.code : null,
 		});
 
 		const session = res.data;
