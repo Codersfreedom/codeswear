@@ -64,20 +64,35 @@ const useCartStore = create((set, get) => ({
     set({ subTotal, total });
   },
   removeFromCart: async (productId) => {
-    console.log(productId)
     try {
-      await axios.delete('/api/cart/remove',{data:{productId}});
+      await axios.delete("/api/cart/remove", { data: { productId } });
       set((prevState) => ({
         cart: prevState.cart.filter((item) => item._id !== productId),
       }));
       toast.success("Item removed from cart");
+      get().getCalculateTotals();
     } catch (error) {
       toast.error(error.response.data.message || "Error deleting the product");
     }
   },
-  updateQuantity: async ()=>{
+  updateQuantity: async (productId, quantity) => {
+    try {
+      if (quantity === 0) {
+        get().removeFromCart(productId);
+        return;
+      }
+      await axios.put("/api/cart/update", { productId, quantity });
 
-  }
+      set((prevState) => ({
+        cart: prevState.cart.map((item) =>
+          item._id === productId ? { ...item, quantity } : item
+        ),
+      }));
+      get().getCalculateTotals();
+    } catch (error) {
+      toast.error(error.response.data.message || "Can't update quantity");
+    }
+  },
 }));
 
 export default useCartStore;

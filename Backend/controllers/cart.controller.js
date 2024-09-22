@@ -64,17 +64,11 @@ export async function removeFromCart(req, res) {
 
 export async function updatQuntity(req, res) {
   try {
-    const { productId } = req.params;
-    const { quantity } = req.body;
-
+    
+    const {productId, quantity } = req.body;
     const user = req.user;
 
-    if (!productId)
-      return res
-        .status(406)
-        .json({ message: "Please provide a valid product id" });
-
-    const existingProduct = await user.cartItems.find(productId);
+    const existingProduct = await user.cartItems.find((item)=> item.id === productId);
     if (!existingProduct)
       return res.status(404).json({ message: "Item not found" });
 
