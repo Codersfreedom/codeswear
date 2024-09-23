@@ -23,7 +23,7 @@ export async function addToCart(req, res) {
   try {
     const { productId } = req.body;
     const user = req.user;
-    console.log(productId);
+
     const existingProduct = await user.cartItems.find(
       (items) => items.id === productId
     );
