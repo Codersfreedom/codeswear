@@ -22,7 +22,7 @@ async function getAnalyticsData() {
   try {
     const totalUser = await User.countDocuments();
     const totalProducts = await Product.countDocuments();
-
+    
     const salesData = await Order.aggregate([
       {
         $group: {
@@ -67,7 +67,7 @@ async function getSalesData(startDate, endDate) {
           revenue: { $sum: "$totalAmount" },
         },
       },
-      { sort: { $_id: 1 } },
+      { $sort: { _id: 1 } },
     ]);
 
     const dateArray = getDatesInRange(startDate, endDate);
