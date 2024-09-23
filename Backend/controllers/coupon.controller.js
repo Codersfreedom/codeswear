@@ -16,7 +16,7 @@ export async function getCoupon(req, res) {
 export async function validateCoupon(req, res) {
   try {
     const { code } = req.body;
-
+    
     const coupon = await Coupon.findOne({
       code: code,
       userId: req.user._id,
@@ -34,6 +34,7 @@ export async function validateCoupon(req, res) {
     res.status(200).json({
       code: coupon.code,
       expirationDate: coupon.expirationDate,
+      discountPercentage:coupon.discountPercentage,
       message: "coupon is valid",
     });
   } catch (error) {

@@ -5,7 +5,7 @@ import Order from "../models/order.model.js";
 export async function createSession(req, res) {
   try {
     const { products, coupon } = req.body;
-    console.log(products,coupon)
+    
     if (!Array.isArray(products) || products.length == 0) {
       return res.status(400).json({ message: "No product provided" });
     }
@@ -36,7 +36,7 @@ export async function createSession(req, res) {
         userId: req.user._id,
         isActive: true,
       });
-
+     
       if (couponCode) {
         totalAmount -= Math.round(
           (totalAmount * couponCode.discountPercentage) / 100
@@ -59,7 +59,7 @@ export async function createSession(req, res) {
         : [],
       metadata: {
         userId: req.user._id.toString(),
-        couponCode: couponCode || "",
+        couponCode: coupon || "",
         products: JSON.stringify(
           products.map((p) => ({
             id: p._id,
@@ -91,7 +91,7 @@ export async function checkoutSuccess(req, res) {
         // updating the coupon status false in database
         await Coupon.findOneAndUpdate(
           {
-            code: couponCode,
+            code: session.metadata.couponCode,                               
             userId: req.user._id,
           },
           {

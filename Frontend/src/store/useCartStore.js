@@ -31,7 +31,7 @@ const useCartStore = create((set, get) => ({
   applyCoupon: async (code) => {
     try {
       const res = await axios.post("/api/coupon/validate", { code });
-      console.log("Validate coupon:", res);
+      console.log("coupon validate response", res.data);
       set({ coupon: res.data, isCouponApplied: true });
       get().getCalculateTotals();
       toast.success("Coupon applied");
@@ -50,8 +50,6 @@ const useCartStore = create((set, get) => ({
   },
 
   addToCart: async (product) => {
-    console.log("addto cart called");
-
     try {
       await axios.post("/api/cart/add", { productId: product._id });
       toast.success("Added to cart");
@@ -79,12 +77,11 @@ const useCartStore = create((set, get) => ({
   },
   getCalculateTotals: () => {
     const { cart, coupon } = get();
-
+    
     const subTotal = cart.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
-
     let total = subTotal;
     if (coupon) {
       const discount = subTotal * (coupon.discountPercentage / 100);
@@ -103,6 +100,9 @@ const useCartStore = create((set, get) => ({
     } catch (error) {
       toast.error(error.response.data.message || "Error deleting the product");
     }
+  },
+  clearCart: () => {
+    set({ cart: [], total: 0, subTotal: 0, coupon: null });
   },
   updateQuantity: async (productId, quantity) => {
     try {

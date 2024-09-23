@@ -11,6 +11,8 @@ import AdminPage from "./pages/AdminPage"
 import CategoryPage from "./pages/CategoryPage"
 import CartPage from "./pages/CartPage"
 import useCartStore from "./store/useCartStore"
+import PurchaseSuccessPage from "./pages/PurchaseSuccessPage"
+import PurchaseCancelPage from "./pages/PurchaseCancelPage"
 
 
 
@@ -19,6 +21,7 @@ function App() {
   const { getCartItems } = useCartStore()
 
   useEffect(() => {
+    
     checkAuth()
   }, [checkAuth])
 
@@ -48,6 +51,8 @@ function App() {
           <Route path="/category/:category" element={<CategoryPage />} />
 
           <Route path="/secret-dashboard" element={authUser && authUser?.role === "admin" ? <AdminPage /> : <Navigate to={"/login"} />} />
+          <Route path="/purchase_success" element={authUser  ? <PurchaseSuccessPage /> : <Navigate to={"/login"} />} />
+          <Route path="/purchase_cancel" element={authUser  ? <PurchaseCancelPage /> : <Navigate to={"/login"} />} />
 
 
         </Routes>
