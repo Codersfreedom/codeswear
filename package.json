@@ -1,7 +1,7 @@
 {
   "name": "codeswear",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "Backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon Backend/server.js",
@@ -14,7 +14,6 @@
   "type": "module",
   "description": "",
   "dependencies": {
-    "-": "^0.0.1",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^2.5.0",
     "cookie-parser": "^1.4.6",
